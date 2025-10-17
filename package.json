@@ -19,7 +19,7 @@
     "lint:fix": "eslint packages/*/src/**/*.{ts,tsx,js,jsx} --fix",
     "format": "prettier --write packages/*/src/**/*.{ts,tsx,js,jsx,json}",
     "format:check": "prettier --check packages/*/src/**/*.{ts,tsx,js,jsx,json}",
-    "clean": "pnpm rimraf -g \"./node_modules/*/dist\"",
+    "clean": "pnpm rimraf -g \"./node_modules/**/dist\"",
     "test": "pnpm -r test",
     "deploy": "pnpm run build:prod && vercel --prod",
     "deploy:netlify": "pnpm run build:prod && Copy-Item -Recurse packages/playground/dist deploy -Force",
