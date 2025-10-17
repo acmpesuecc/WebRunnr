@@ -6,21 +6,26 @@
   <title>WebRunnr - Production Demo</title>
   <!-- No CDN needed - Babel is bundled in ts-executor! -->
   <style>
+    :root {
+      --bg: #f5f5f5;
+      --text: #333;
+    }
+    html.dark { --bg:#0f141a; --text:#dbe5ee; }
     body {
       font-family: Arial, sans-serif;
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
-      background: #f5f5f5;
+      background: var(--bg);
     }
     .container {
-      background: white;
+      background: #fff;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     h1 {
-      color: #333;
+      color: var(--text);
       text-align: center;
       margin-bottom: 30px;
     }
@@ -91,8 +96,17 @@
   </style>
 </head>
 <body>
+  <script>
+    try {
+      const t = localStorage.getItem('webrunnr-theme')||'light';
+      if (t==='dark') document.documentElement.classList.add('dark');
+    } catch {}
+  </script>
   <div class="container">
     <h1>🚀 WebRunnr - Production Demo</h1>
+    <div style="text-align:center;margin-bottom:12px;">
+      <button id="themeToggle">Toggle Theme</button>
+    </div>
     <p style="text-align: center; color: #666; margin-bottom: 30px;">
       This demo uses the built JavaScript packages exactly as end users would consume them.
     </p>
@@ -248,6 +262,15 @@ console.log('Average score:', average.toFixed(2));</textarea>
     console.log('✅ WebRunnr Production Demo loaded');
     console.log('Available executors: JavaScript, TypeScript');
     console.log('Ready for code execution!');
+
+    // Simple theme toggle for demo
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('webrunnr-theme', isDark ? 'dark' : 'light');
+      });
+    }
   </script>
 </body>
 </html>
