@@ -513,6 +513,7 @@
         <div class="header-right">
             <button id="import-btn" class="file-button">Import</button>
             <button id="export-btn" class="file-button">Export</button>
+            <button id="save-btn" class="file-button">Save</button>
             <button id="shortcuts-btn" class="file-button">Shortcuts</button>
             <button id="run-btn" class="run-button">
                 <span class="status-indicator status-ready"></span>
@@ -583,9 +584,11 @@
         import { go } from "https://esm.sh/@codemirror/lang-go";
         import { indentWithTab } from "https://esm.sh/@codemirror/commands";
         import { githubLight } from "https://esm.sh/@uiw/codemirror-theme-github";
+        import { AutosaveManager } from './src/autosave.js';
 
 
         class WebRunnrUI {
+            // Inside WebRunnrUI class
             constructor() {
                 this.currentFile = null;
                 this.editor = null; 
@@ -593,8 +596,15 @@
                 
                 this.setupPlayground();
                 this.setupEditor(); 
+                // New: Initialize AutosaveManager after editor is ready
+                this.autosaveManager = new AutosaveManager(
+                    this.editor,
+                    this.playground,
+                    this.showNotification.bind(this),
+                    this.loadDefaultCode.bind(this)
+                );
                 this.setupUI();
-                this.loadDefaultCode();
+                // this.loadDefaultCode();
             }
 
             setupPlayground() {
@@ -652,6 +662,12 @@
                         }]),
                         this.languageCompartment.of(javascript({ typescript: false })),
                         EditorView.updateListener.of((update) => {
+                            // Check if autosaveManager is initialized before calling it
+                            if (this.autosaveManager) {
+                                this.autosaveManager.handleEditorUpdate(update); 
+                            }
+
+                            // Keep your existing file status update logic
                             if (update.docChanged) {
                                 if (this.currentFile) return;
                                 if (this.editor.state.doc.toString().trim()) {
@@ -703,9 +719,9 @@
                 elements.languageSelect.addEventListener('change', (e) => {
                     const newLang = e.target.value;
                     this.setEditorLanguage(newLang);
-                    if (!this.currentFile) {
-                        this.loadDefaultCode();
-                    }
+                    // if (!this.currentFile) {
+                    //     this.loadDefaultCode();
+                    // }
                 });
 
                 elements.editorContainer.addEventListener('dragover', (e) => {
