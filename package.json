@@ -19,7 +19,7 @@
     "lint:fix": "eslint packages/*/src/**/*.{ts,tsx,js,jsx} --fix",
     "format": "prettier --write packages/*/src/**/*.{ts,tsx,js,jsx,json}",
     "format:check": "prettier --check packages/*/src/**/*.{ts,tsx,js,jsx,json}",
-    "clean": "pnpm rimraf -g \"./node_modules/**/dist\"",
+    "clean": "pnpm -r run clean",
     "test": "pnpm -r test",
     "deploy": "pnpm run build:prod && vercel --prod",
     "deploy:netlify": "pnpm run build:prod && Copy-Item -Recurse packages/playground/dist deploy -Force",
@@ -33,6 +33,7 @@
     "eslint-config-prettier": "^9.0.0",
     "prettier": "^3.0.0",
     "pyodide": "^0.28.0",
+    "rimraf": "5",
     "rollup": "^4.46.2",
     "typescript": "^5.0.0"
   },
@@ -42,7 +43,6 @@
   },
   "packageManager": "pnpm@8.15.0",
   "dependencies": {
-    "rimraf": "^6.0.1",
     "tsc": "^2.0.4"
   }
 }

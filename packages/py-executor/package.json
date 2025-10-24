@@ -7,13 +7,14 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "clean": "rm -rf dist",
+  "clean": "rimraf dist",
     "test": "echo \"No tests specified\""
   },
   "dependencies": {
     "pyodide": "^0.28.0"
   },
   "devDependencies": {
+    "rimraf": "^5.0.0",
     "typescript": "^5.8.3"
   },
   "files": [
